@@ -1,0 +1,118 @@
+import { useState } from 'react';
+import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
+
+export default function ForgotPassword() {
+  const [email, setEmail] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = () => {
+    setError('');
+    
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSubmitted(true);
+    }, 1500);
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md text-center">
+          <div className="flex justify-center mb-6">
+            <div className="bg-green-100 rounded-full p-3">
+              <CheckCircle className="w-12 h-12 text-green-600" />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">Check Your Email</h1>
+          <p className="text-gray-600 mb-6">
+            We've sent password reset instructions to <span className="font-semibold text-gray-900">{email}</span>
+          </p>
+          <p className="text-sm text-gray-500 mb-8">
+            Didn't receive the email? Check your spam folder or try again.
+          </p>
+          <button
+            onClick={() => {
+              setIsSubmitted(false);
+              setEmail('');
+            }}
+            className="text-indigo-600 hover:text-indigo-700 font-medium text-sm flex items-center justify-center gap-2 mx-auto transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to forgot password
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <div className="bg-indigo-100 rounded-full p-3">
+              <Mail className="w-8 h-8 text-indigo-600" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Forgot Password?</h1>
+          <p className="text-gray-600">
+            No worries, we'll send you reset instructions.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError('');
+              }}
+              placeholder="Enter your email"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+            />
+            {error && (
+              <p className="mt-2 text-sm text-red-600">{error}</p>
+            )}
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? 'Sending...' : 'Reset Password'}
+          </button>
+
+          <button
+            onClick={() => window.history.back()}
+            className="w-full text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center justify-center gap-2 py-2 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to login
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
