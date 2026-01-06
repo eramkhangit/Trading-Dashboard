@@ -1,8 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 import type { Session, User } from "@supabase/supabase-js";
+import { AuthContext } from "./AuthContext";
 
-interface AuthContextValue {
+
+export interface AuthContextValue {
   user: User | null;
   session: Session | null;
   loading: boolean;
@@ -11,11 +13,6 @@ interface AuthContextValue {
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
-
-// global store
-export const AuthContext = createContext<AuthContextValue | undefined>(
-  undefined
-);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -42,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     });
 
     // to user info at first load
-    refreshUser().catch(console.error);
+    // refreshUser().catch(console.error);
 
     return () => {
       subscription.unsubscribe();
@@ -121,10 +118,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return context;
-};
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
+//   if (context === undefined) {
+//     throw new Error("useAuth must be used within AuthProvider");
+//   }
+//   return context;
+// };

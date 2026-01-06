@@ -11,7 +11,7 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import useAuth from "../hooks/useAuth";
 
 // Define types
 interface User {
@@ -108,7 +108,7 @@ const NavigationMenu: React.FC = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="flex-shrink-0">
+            <div className="flex shrink-0">
               <Link href="/">
                 <span className="text-2xl font-bold text-blue-600 cursor-pointer">
                   Logo
@@ -182,7 +182,7 @@ const NavigationMenu: React.FC = () => {
                   {/* User Dropdown Menu */}
                   {isUserDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-                      {userDropdownItems.map((item, _index) => (
+                      {userDropdownItems.map((item) => (
                         <React.Fragment key={item.href}>
                           {item.label === "Logout" ? (
                             <button
@@ -301,7 +301,7 @@ const NavigationMenu: React.FC = () => {
                   {/* Mobile User Dropdown */}
                   {isUserDropdownOpen && (
                     <div className="ml-4 mt-1 space-y-1">
-                      {userDropdownItems.map((item, _index) => (
+                      {userDropdownItems.map((item) => (
                         <React.Fragment key={item.href}>
                           {item.label === "Logout" ? (
                             <button

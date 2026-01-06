@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -7,9 +8,20 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = () => {
+  // 1. User से email लें
+  // const email = "user@example.com";
+
+  // 2. Reset link भेजें
+  // const { data, error } = await supabase.auth.resetPasswordForEmail(
+  //   email,
+  //   {
+  //     redirectTo: 'https://yourapp.com/reset-password' // Production URL
+  //   }
+  // );
+
+  const handleSubmit = async() => {
     setError('');
-    
+
     if (!email) {
       setError('Please enter your email address');
       return;
@@ -21,17 +33,23 @@ export default function ForgotPassword() {
     }
 
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-    }, 1500);
+    const { data:data, error } = await supabase.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo: 'http://localhost:5173/resetPassword'
+      }
+    )
+    console.log(data, error)
+    // // Simulate API call
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   setIsSubmitted(true);
+    // }, 1500);
   };
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md text-center">
           <div className="flex justify-center mb-6">
             <div className="bg-green-100 rounded-full p-3">
@@ -61,7 +79,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
