@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { Input } from '../components/Shared/Input';
+import { Button } from '../components/Shared/Button';
+import { Label } from '../components/Shared/Label';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -63,7 +66,7 @@ export default function ForgotPassword() {
           <p className="text-sm text-gray-500 mb-8">
             Didn't receive the email? Check your spam folder or try again.
           </p>
-          <button
+          <Button
             onClick={() => {
               setIsSubmitted(false);
               setEmail('');
@@ -72,7 +75,7 @@ export default function ForgotPassword() {
           >
             <ArrowLeft className="w-4 h-4" />
             Back to forgot password
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -95,10 +98,10 @@ export default function ForgotPassword() {
 
         <div className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <Label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
-            </label>
-            <input
+            </Label>
+            <Input
               type="email"
               id="email"
               value={email}
@@ -114,21 +117,21 @@ export default function ForgotPassword() {
             )}
           </div>
 
-          <button
+          <Button
             onClick={handleSubmit}
             disabled={isLoading}
             className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Sending...' : 'Reset Password'}
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => window.history.back()}
             className="w-full text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center justify-center gap-2 py-2 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to login
-          </button>
+          </Button>
         </div>
       </div>
     </div>
