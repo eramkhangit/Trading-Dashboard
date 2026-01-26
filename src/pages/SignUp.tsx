@@ -57,7 +57,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async () => {
     if (validateForm()) {
-      try {
+       try {
         const { error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
@@ -65,8 +65,9 @@ export default function SignUpForm() {
             data: { name: formData.name },
             emailRedirectTo: `${window.location.origin}/`,
           },
-        });
+        })
         if (error) {
+          console.log("Error :", error)
           throw error;
         }
       } catch (error: unknown) {
@@ -80,7 +81,6 @@ export default function SignUpForm() {
         }
       }
     }
-    console.log("Sign Up :",formData.email, formData.password)
   };
 
   return (

@@ -11,17 +11,6 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // 1. User से email लें
-  // const email = "user@example.com";
-
-  // 2. Reset link भेजें
-  // const { data, error } = await supabase.auth.resetPasswordForEmail(
-  //   email,
-  //   {
-  //     redirectTo: 'https://yourapp.com/reset-password' // Production URL
-  //   }
-  // );
-
   const handleSubmit = async() => {
     setError('');
 
@@ -43,11 +32,7 @@ export default function ForgotPassword() {
       }
     )
     console.log(data, error)
-    // // Simulate API call
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    //   setIsSubmitted(true);
-    // }, 1500);
+
   };
 
   if (isSubmitted) {

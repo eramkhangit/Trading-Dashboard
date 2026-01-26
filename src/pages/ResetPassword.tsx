@@ -3,56 +3,79 @@ import { Eye, EyeOff, Lock, CheckCircle } from 'lucide-react';
 import { Button } from '../components/Shared/Button';
 import { Label } from '../components/Shared/Label';
 import { Input } from '../components/Shared/Input';
+import { supabase } from '../lib/supabaseClient';
+import { useLocation } from 'wouter';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [feedbackmsg, setFeedbackmsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [, setLocation] = useLocation()
 
-//   const validatePassword = (pwd: string) => {
-//     if (pwd.length < 8) {
-//       return 'Password must be at least 8 characters long';
-//     }
-//     if (!/(?=.*[a-z])/.test(pwd)) {
-//       return 'Password must contain at least one lowercase letter';
-//     }
-//     if (!/(?=.*[A-Z])/.test(pwd)) {
-//       return 'Password must contain at least one uppercase letter';
-//     }
-//     if (!/(?=.*\d)/.test(pwd)) {
-//       return 'Password must contain at least one number';
-//     }
-//     return '';
-//   };
+  //   const validatePassword = (pwd: string) => {
+  //     if (pwd.length < 8) {
+  //       return 'Password must be at least 8 characters long';
+  //     }
+  //     if (!/(?=.*[a-z])/.test(pwd)) {
+  //       return 'Password must contain at least one lowercase letter';
+  //     }
+  //     if (!/(?=.*[A-Z])/.test(pwd)) {
+  //       return 'Password must contain at least one uppercase letter';
+  //     }
+  //     if (!/(?=.*\d)/.test(pwd)) {
+  //       return 'Password must contain at least one number';
+  //     }
+  //     return '';
+  //   };
 
   const handleSubmit = async () => {
-    const newErrors: { password?: string; confirmPassword?: string } = {};
-    
-    // const passwordError = validatePassword(password);
-    // if (passwordError) {
-    //   newErrors.password = passwordError;
-    // }
-    
+    const newErrors: Record<string, string> = {};
+    if (password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    } else if (!password) {
+      newErrors.password = "Password is required!"
+    }
+
+    if (confirmPassword.length < 8) {
+      newErrors.confirmPassword = 'Password must be at least 8 characters'
+    } else if (!confirmPassword) {
+      newErrors.confirmPassword = 'Confirm password is required!'
+    }
+
     if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
+
     setErrors({});
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: password
+      })
+      if (error) {
+        setFeedbackmsg({ type: "error", text: error?.message })
+      }
+      else {
+        setFeedbackmsg({ type: 'success', text: 'Password updated successfully!' })
+        setTimeout(() => {
+          setLocation('/login')
+        }, 2000);
+      }
+    } catch (error) {
+      setFeedbackmsg({ type: 'error', text: `An unexpected error occurred ${error}` })
+    }
+    setIsLoading(false);
     setIsSuccess(true);
   };
 
@@ -86,7 +109,9 @@ export default function ResetPasswordPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Reset Password</h1>
           <p className="text-gray-600">Enter your new password below</p>
         </div>
-
+        {
+          feedbackmsg?.text && <p>{feedbackmsg?.type}:{feedbackmsg?.text}</p>
+        }
         <div className="space-y-6">
           <div>
             <Label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
@@ -104,7 +129,7 @@ export default function ResetPasswordPage() {
               <Button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-50"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </Button>
@@ -130,7 +155,7 @@ export default function ResetPasswordPage() {
               <Button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-50"
               >
                 {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </Button>
@@ -165,10 +190,10 @@ export default function ResetPasswordPage() {
           <Button
             type="button"
             onClick={handleSubmit}
-            disabled={isSubmitting}
+            disabled={isLoading}
             className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Resetting Password...' : 'Reset Password'}
+            {isLoading ? 'Resetting Password...' : 'Reset Password'}
           </Button>
         </div>
 
