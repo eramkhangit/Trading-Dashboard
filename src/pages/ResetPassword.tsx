@@ -100,13 +100,13 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+    <div className="flex items-center justify-center">
+      <div className="bg-white rounded shadow p-8 mt-2 md:mt-4 lg:mt-6 max-w-md w-full">
         <div className="mb-8 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
             <Lock className="w-8 h-8 text-indigo-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Reset Password</h1>
+          <h1 className="title-h1 text-gray-900 mb-2">Reset Password</h1>
           <p className="text-gray-600">Enter your new password below</p>
         </div>
         {

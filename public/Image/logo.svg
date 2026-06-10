@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#f8f9fa" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#00a8e8" stroke-width="1" opacity="0.3"/>
+  <rect x="45" y="110" width="12" height="30" fill="#00a8e8" rx="2"/>
+  <rect x="65" y="95" width="12" height="45" fill="#00d4ff" rx="2"/>
+  <rect x="85" y="75" width="12" height="65" fill="#0099d8" rx="2"/>
+  <rect x="105" y="60" width="12" height="80" fill="#00a8e8" rx="2"/>
+  <rect x="125" y="80" width="12" height="60" fill="#00d4ff" rx="2"/>
+  <polyline points="45,125 65,110 85,80 105,65 125,85" fill="none" stroke="#ff6b35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="145,50 145,65 153,65 148,72 143,65 151,65 151,50" fill="#ff6b35"/>
+  <text x="100" y="155" font-size="14" font-weight="bold" fill="#1a1a1a" text-anchor="middle" font-family="Arial, sans-serif">TRADE</text>
+</svg>

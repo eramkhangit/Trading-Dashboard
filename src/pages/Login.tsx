@@ -79,10 +79,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+    <div className="flex items-center justify-center">
+      <div className="bg-white rounded shadow p-8 max-w-md w-full mt-2 md:mt-4 lg:mt-6">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          <h1 className="title-h1 text-gray-800 mb-2">
             Welcome Back
           </h1>
           <p className="text-gray-600">Log in to your account to continue</p>

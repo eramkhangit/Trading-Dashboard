@@ -67,15 +67,15 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+    <div className="flex items-center justify-center">
+      <div className="bg-white rounded mt-2 md:mt-4 lg:mt-6 shadow p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-indigo-100 rounded-full p-3">
               <Mail className="w-8 h-8 text-indigo-600" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Forgot Password?</h1>
+          <h1 className="title-h1 text-gray-900 mb-2">Forgot Password?</h1>
           <p className="text-gray-600">
             No worries, we'll send you reset instructions.
           </p>
@@ -112,7 +112,7 @@ export default function ForgotPassword() {
 
           <Button
             onClick={() => window.history.back()}
-            className="w-full text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center justify-center gap-2 py-2 transition-colors"
+            className="w-full bg-transparent text-black hover:text-blue-400 font-medium text-sm flex items-center justify-center gap-2 py-2"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to login
