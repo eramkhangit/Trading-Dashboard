@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-// import { useAuth } from "../context/AuthContext";
 import { Link } from "wouter";
 import { supabase } from "../lib/supabaseClient";
+import { Input } from "../components/Shared/Input";
+import { Label } from "../components/Shared/Label";
+import { Button } from "../components/Shared/Button";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -55,7 +57,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async () => {
     if (validateForm()) {
-      try {
+       try {
         const { error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
@@ -63,45 +65,46 @@ export default function SignUpForm() {
             data: { name: formData.name },
             emailRedirectTo: `${window.location.origin}/`,
           },
-        });
-
+        })
         if (error) {
+          console.log("Error :", error)
           throw error;
         }
-      } catch (error: any) {
-        console.error("Signup error:", error);
-        // Show user-friendly error message
-        if (error.message.includes("Invalid API key")) {
-          alert("Configuration error. Please contact support.");
-        } else {
-          alert(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Signup error:", error);
+          if (error.message.includes("Invalid API key")) {
+            alert("Configuration error. Please contact support.");
+          } else {
+            alert(error.message);
+          }
         }
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    <div className="flex items-center justify-center">
+      <div className="bg-white rounded p-8 shadow mt-2 md:mt-4 lg:mt-6 w-full max-w-md">
+        <h2 className="title-h1 text-gray-800 mb-6 text-center">
           Sign Up
         </h2>
 
         <div className="space-y-5">
           <div>
-            <label
+            <Label
               htmlFor="name"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Name
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
+              className=" px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
               placeholder="Enter your name"
             />
             {errors.name && (
@@ -110,19 +113,19 @@ export default function SignUpForm() {
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Email
-            </label>
-            <input
+            </Label>
+            <Input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
+              className=" px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
               placeholder="Enter your email"
             />
             {errors.email && (
@@ -131,29 +134,29 @@ export default function SignUpForm() {
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Password
-            </label>
+            </Label>
             <div className="relative">
-              <input
+              <Input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition pr-10"
+                className="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition pr-10"
                 placeholder="Enter your password"
               />
-              <button
+              <Button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-50 "
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+              </Button>
             </div>
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -161,29 +164,29 @@ export default function SignUpForm() {
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="confirmPassword"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Confirm Password
-            </label>
+            </Label>
             <div className="relative">
-              <input
+              <Input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition pr-10"
+                className=" px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition pr-10"
                 placeholder="Confirm your password"
               />
-              <button
+              <Button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-50"
               >
                 {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+              </Button>
             </div>
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">
@@ -192,12 +195,12 @@ export default function SignUpForm() {
             )}
           </div>
 
-          <button
+          <Button
             onClick={handleSubmit}
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 transition font-medium"
           >
             Sign Up
-          </button>
+          </Button>
         </div>
 
         <p className="text-center text-gray-600 text-sm mt-6">

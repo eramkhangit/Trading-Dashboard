@@ -1,5 +1,5 @@
 import "./App.css";
-import LoginPage from "./pages/Login";
+import LoginPage from './pages/Login'
 import SignupPage from "./pages/SignUp";
 import { Route, Router } from "wouter";
 import TradingDashboard from "./pages/TradingDashboard";
@@ -13,6 +13,7 @@ function App() {
   return (
     <>
       <NavigationMenu />
+
       <Router>
         <Route path="/" component={HomePage} />
         <Route path="/signup" component={SignupPage} />
